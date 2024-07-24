@@ -41,10 +41,7 @@ class AdminController extends Controller
         $file_extention = $request->file('image')->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extention;
 
-        dd($file_extention, $file_name);
-
-
-        $this->GenerateBrandThumbailImage($image, $file_name);
+        $this->GenerateBrandThumbailsImage($image, $file_name);
         $brand->image = $file_name;
         $brand->save();
         return redirect()->route('admin.brands')->with('status', 'Record has been added successfully !');
