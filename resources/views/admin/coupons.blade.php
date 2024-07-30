@@ -1,9 +1,18 @@
 @extends('layouts.admin')
 @section('content')
+    <style>
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
     <div class="main-content-inner">
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-                <h3>Brands</h3>
+                <h3>Coupons</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
                         <a href="{{ route('admin.index') }}">
@@ -14,7 +23,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <div class="text-tiny">Brands</div>
+                        <div class="text-tiny">Coupons</div>
                     </li>
                 </ul>
             </div>
@@ -32,7 +41,7 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Add
+                    <a class="tf-button style-1 w208" href="{{ route('admin.coupon.add') }}"><i class="icon-plus"></i>Add
                         new</a>
                 </div>
                 <div class="wg-table table-all-user">
@@ -44,35 +53,32 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Slug</th>
-                                    <th>Products</th>
+                                    <th>Code</th>
+                                    <th>Type</th>
+                                    <th>Value</th>
+                                    <th>Cart Value</th>
+                                    <th>Expiry Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($brands as $brand)
+                                @foreach ($coupons as $coupon)
                                     <tr>
-                                        <td>{{ $brand->id }}</td>
-                                        <td class="pname">
-                                            <div class="image">
-                                                <img src="{{ asset('uploads/brands') }}/{{ $brand->image }}"
-                                                    alt="{{ $brand->name }}" class="image">
-                                            </div>
-                                            <div class="name">
-                                                <a href="#" class="body-title-2">{{ $brand->name }}</a>
-                                            </div>
-                                        </td>
-                                        <td>{{ $brand->slug }}</td>
-                                        <td><a href="#" target="_blank">0</a></td>
+                                        <td>{{ $coupon->id }}</td>
+                                        <td>{{ $coupon->code }}</td>
+                                        <td>{{ $coupon->type }}</td>
+                                        <td class="text-right">{{ $coupon->value }}</td>
+                                        <td class="text-right">$ {{ $coupon->cart_value }}</td>
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($coupon->expiry_date)->format('d/m/Y') }}</td>
                                         <td>
                                             <div class="list-icon-function">
-                                                <a href="{{ route('admin.brand.edit', ['id' => $brand->id]) }}">
+                                                <a href="{{ route('admin.coupon.edit', ['id' => $coupon->id]) }}">
                                                     <div class="item edit">
                                                         <i class="icon-edit-3"></i>
                                                     </div>
                                                 </a>
-                                                <form action="{{ route('admin.brand.delete', ['id' => $brand->id]) }}"
+                                                <form action="{{ route('admin.coupon.delete', ['id' => $coupon->id]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
@@ -87,10 +93,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="divider"></div>
-                    <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                        {{ $brands->links('pagination::bootstrap-5') }}
-                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                    {{ $coupons->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
